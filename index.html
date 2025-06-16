@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Scotia Gold Mining Map</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nova Scotia Gold Mining Map</h1>
+            <p>Interactive map of gold mining locations to help with gold panning activities</p>
+        </header>
+        
+        <div class="controls">
+            <!-- Filter controls -->
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="status-filter">Status:</label>
+                    <select id="status-filter">
+                        <option value="all">All</option>
+                        <option value="abandoned">Abandoned</option>
+                        <option value="active-exploration">Active Exploration</option>
+                        <option value="historical">Historical</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="size-filter">Size:</label>
+                    <select id="size-filter">
+                        <option value="all">All</option>
+                        <option value="large">Large</option>
+                        <option value="medium">Medium</option>
+                        <option value="small">Small</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="type-filter">Type:</label>
+                    <select id="type-filter">
+                        <option value="all">All</option>
+                        <option value="historical">Historical</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <input type="text" id="search-input" placeholder="Search...">
+                    <button id="search-button">Search</button>
+                </div>
+            </div>
+            <div class="filter-container">
+                <div class="filter-group checkbox-group">
+                    <input type="checkbox" id="show-favorites" name="show-favorites">
+                    <label for="show-favorites">Show Favorites Only</label>
+                </div>
+                <div class="filter-group">
+                    <button id="export-favorites" class="export-btn">Export Favorites</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="map"></div>
+        
+        <div class="info-panel">
+            <h3>Location Information</h3>
+            <div id="location-info">
+                <p>Select a location on the map to view details</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Data source: <a href="https://novascotia.ca/natr/meb/download/dp002.asp" target="_blank">Nova Scotia Mineral Occurrence Database</a> | 
+            Licensed under <a href="https://novascotia.ca/opendata/licence.asp" target="_blank">Nova Scotia Open Government License</a></p>
+        </footer>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="js/gold-mining-data-part1.js"></script>
+    <script src="js/gold-mining-data-part2.js"></script>
+    <script src="js/gold-mining-data-part3.js"></script>
+    <script src="js/gold-mining-data-part4.js"></script>
+    <script src="js/gold-mining-data.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>
