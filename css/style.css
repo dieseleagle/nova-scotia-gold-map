@@ -193,10 +193,6 @@ header h1 {
     background-color: rgba(139, 69, 19, 0.8); /* Brown for historical sites */
 }
 
-.gold-marker-icon.panning {
-    background-color: rgba(65, 105, 225, 0.8); /* Royal blue for panning locations */
-}
-
 /* Legend icons */
 .legend-icon {
     display: inline-block;
@@ -218,15 +214,6 @@ header h1 {
 
 .legend-icon.historical {
     background-color: rgba(139, 69, 19, 0.8);
-}
-
-.legend-icon.panning {
-    background-color: rgba(65, 105, 225, 0.8);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    line-height: 20px;
-    font-size: 10px;
 }
 
 /* Offline status indicator */
@@ -325,109 +312,12 @@ header h1 {
     font-weight: bold;
 }
 
-/* User Contribution Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    width: 90%;
-}
-
-.close-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-    color: #000;
-    text-decoration: none;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.form-group textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-.form-row {
-    display: flex;
-    gap: 15px;
-}
-
-.form-row .form-group {
-    flex: 1;
-}
-
-.submit-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-}
-
-.submit-btn:hover {
-    background-color: #45a049;
-}
-
-/* Add Location Button */
-.add-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.add-btn:hover {
-    background-color: #45a049;
-}
-
 /* Footer */
 footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
     font-size: 0.9em;
     color: #666;
 }

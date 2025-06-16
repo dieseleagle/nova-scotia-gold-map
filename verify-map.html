@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Map Fix</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #verify-map {
+            height: 500px;
+            width: 100%;
+            border: 2px solid #ddd;
+        }
+        .gold-icon {
+            background-color: rgba(184, 134, 11, 0.8);
+            border-radius: 50%;
+            width: 30px !important;
+            height: 30px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .panning-icon {
+            background-color: rgba(65, 105, 225, 0.8);
+            border-radius: 50%;
+            width: 30px !important;
+            height: 30px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Verify Map Fix</h1>
+    <p>This page tests if the map display issue has been fixed</p>
+    
+    <div id="verify-map"></div>
+    
+    <!-- Leaflet and Plugins JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map centered on Nova Scotia
+            const map = L.map('verify-map').setView([45.0, -62.5], 8);
+            
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18
+            }).addTo(map);
+            
+            // Create custom icon classes
+            const goldIcon = L.divIcon({
+                className: 'gold-icon',
+                html: 'Au',
+                iconSize: [30, 30]
+            });
+            
+            const panningIcon = L.divIcon({
+                className: 'panning-icon',
+                html: 'Pa',
+                iconSize: [30, 30]
+            });
+            
+            // Add sample markers
+            L.marker([45.0, -62.5], {icon: goldIcon}).addTo(map)
+                .bindPopup('Gold Mining Site');
+                
+            L.marker([45.2, -62.7], {icon: panningIcon}).addTo(map)
+                .bindPopup('Gold Panning Location');
+        });
+    </script>
+</body>
+</html>
