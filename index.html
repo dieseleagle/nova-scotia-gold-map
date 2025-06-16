@@ -62,8 +62,15 @@
                     <input type="checkbox" id="show-favorites" name="show-favorites">
                     <label for="show-favorites">Show Favorites Only</label>
                 </div>
+                <div class="filter-group checkbox-group">
+                    <input type="checkbox" id="show-user-locations" name="show-user-locations" checked>
+                    <label for="show-user-locations">Show User Locations</label>
+                </div>
                 <div class="filter-group">
                     <button id="export-favorites" class="export-btn">Export Favorites</button>
+                </div>
+                <div class="filter-group">
+                    <button id="add-location-btn" class="add-btn">Add Your Spot</button>
                 </div>
             </div>
         </div>
@@ -91,12 +98,59 @@
     <!-- Leaflet MarkerCluster JS -->
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     
+    <!-- User Contribution Modal -->
+    <div id="add-location-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add Your Gold Panning Location</h2>
+            <form id="add-location-form">
+                <div class="form-group">
+                    <label for="location-name">Location Name*:</label>
+                    <input type="text" id="location-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="location-description">Description*:</label>
+                    <textarea id="location-description" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location-lat">Latitude*:</label>
+                        <input type="number" id="location-lat" step="0.0001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location-lng">Longitude*:</label>
+                        <input type="number" id="location-lng" step="0.0001" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location-access">Access Notes:</label>
+                    <textarea id="location-access"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="location-panning">Panning Potential:</label>
+                    <select id="location-panning">
+                        <option value="High">High</option>
+                        <option value="Moderate" selected>Moderate</option>
+                        <option value="Low">Low</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Add Location</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script src="js/gold-mining-data-part1.js"></script>
     <script src="js/gold-mining-data-part2.js"></script>
     <script src="js/gold-mining-data-part3.js"></script>
     <script src="js/gold-mining-data-part4.js"></script>
+    <script src="js/gold-panning-locations.js"></script>
+    <script src="js/additional-gold-panning-locations.js"></script>
     <script src="js/gold-mining-data.js"></script>
+    <script src="js/user-contributions.js"></script>
     <script src="js/map.js"></script>
 </body>
 </html>

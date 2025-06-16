@@ -1,5 +1,7 @@
 // Main JavaScript for Nova Scotia Gold Mining Map
 document.addEventListener('DOMContentLoaded', function() {
+    // Load user contributions if available
+    loadUserContributions();
     // Check if data is available in localStorage for offline use
     let offlineData = localStorage.getItem('novaScotiaGoldData');
     let goldLocations = [];
@@ -212,6 +214,85 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add the markers to the map
     map.addLayer(markers);
     
+    // Call filterMarkers to initialize the map with markers
+    filterMarkers();
+    
+    // Add user-submitted locations to the map
+    addUserLocationsToMap();
+    
+    // Modal functionality
+    const modal = document.getElementById('add-location-modal');
+    const addLocationBtn = document.getElementById('add-location-btn');
+    const closeModal = document.querySelector('.close-modal');
+    const addLocationForm = document.getElementById('add-location-form');
+    
+    // Open modal when Add Your Spot button is clicked
+    addLocationBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+        
+        // If user's location is known, pre-fill the coordinates
+        if (userLocation) {
+            document.getElementById('location-lat').value = userLocation.lat.toFixed(4);
+            document.getElementById('location-lng').value = userLocation.lng.toFixed(4);
+        }
+    });
+    
+    // Close modal when X is clicked
+    closeModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    // Handle form submission
+    addLocationForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('location-name').value;
+        const description = document.getElementById('location-description').value;
+        const lat = parseFloat(document.getElementById('location-lat').value);
+        const lng = parseFloat(document.getElementById('location-lng').value);
+        const accessNotes = document.getElementById('location-access').value;
+        const panningPotential = document.getElementById('location-panning').value;
+        
+        // Create new location object
+        const newLocation = {
+            name: name,
+            lat: lat,
+            lng: lng,
+            type: 'recreational',
+            status: 'user-submitted',
+            size: 'small',
+            description: description,
+            accessNotes: accessNotes,
+            panningPotential: panningPotential,
+            discoveryYear: new Date().getFullYear(),
+            discoverer: 'User Submitted'
+        };
+        
+        // Add to user contributions
+        addUserContribution(newLocation);
+        
+        // Clear form
+        addLocationForm.reset();
+        
+        // Close modal
+        modal.style.display = 'none';
+        
+        // Refresh markers
+        filterMarkers();
+        addUserLocationsToMap();
+        
+        // Show confirmation
+        alert('Your gold panning location has been added to the map!');
+    });
+    
     // Save data for offline use
     try {
         localStorage.setItem('novaScotiaGoldData', JSON.stringify(goldLocations));
@@ -234,14 +315,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const typeValue = typeFilter ? typeFilter.value : 'all';
         const searchValue = searchInput.value.toLowerCase();
         const showOnlyFavorites = showFavoritesCheckbox && showFavoritesCheckbox.checked;
+        const showUserLocations = document.getElementById('show-user-locations').checked;
         
         // Get favorites list
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         
-        // Remove all markers
         markers.clearLayers();
         
-        // Add filtered markers
+        // Add official gold locations
         goldLocations.forEach(location => {
             // Check if location matches all filters
             const matchesStatus = statusValue === 'all' || location.status === statusValue;
@@ -293,6 +374,9 @@ document.addEventListener('DOMContentLoaded', function() {
     statusFilter.addEventListener('change', filterMarkers);
     sizeFilter.addEventListener('change', filterMarkers);
     if (typeFilter) typeFilter.addEventListener('change', filterMarkers);
+    
+    // Add event listener for user locations checkbox
+    document.getElementById('show-user-locations').addEventListener('change', filterMarkers);
     if (showFavoritesCheckbox) showFavoritesCheckbox.addEventListener('change', filterMarkers);
     searchButton.addEventListener('click', filterMarkers);
     searchInput.addEventListener('keypress', function(e) {
@@ -391,6 +475,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add the custom control to the map
     map.addControl(new locationControl());
+    
+    // Create a custom icon for user-submitted locations
+    const userSubmittedIcon = L.divIcon({
+        className: 'gold-marker-icon user-submitted',
+        iconSize: [30, 30],
+        html: '<span style="line-height: 30px;">Au</span>'
+    });
+    
+    // Add user-submitted locations to the map
+    function addUserLocationsToMap() {
+        const userLocs = getUserContributions();
+        userLocs.forEach(location => {
+            if (document.getElementById('show-user-locations').checked) {
+                const marker = L.marker([location.lat, location.lng], { icon: userSubmittedIcon })
+                    .bindPopup(createPopupContent(location));
+                
+                marker.on('click', function() {
+                    displayLocationInfo(location);
+                });
+                
+                markers.addLayer(marker);
+            }
+        });
+    }
 
     // Handle location found event
     map.on('locationfound', function(e) {
