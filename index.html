@@ -6,9 +6,7 @@
     <title>Nova Scotia Gold Mining Map</title>
     
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <!-- Leaflet MarkerCluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
@@ -16,12 +14,6 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 </head>
 <body>
     <div class="container">
@@ -40,6 +32,7 @@
                         <option value="abandoned">Abandoned</option>
                         <option value="active-exploration">Active Exploration</option>
                         <option value="historical">Historical</option>
+                        <option value="panning">Panning</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -95,8 +88,6 @@
             Licensed under <a href="https://novascotia.ca/opendata/licence.asp" target="_blank">Nova Scotia Open Government License</a></p>
         </footer>
     </div>
-
-    <!-- Leaflet libraries are loaded at the bottom of the page -->
     
     <!-- User Contribution Modal -->
     <div id="add-location-modal" class="modal">
@@ -142,7 +133,11 @@
         </div>
     </div>
 
-    <!-- Application JavaScript -->
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Application Data -->
     <script src="js/gold-mining-data-part1.js"></script>
     <script src="js/gold-mining-data-part2.js"></script>
     <script src="js/gold-mining-data-part3.js"></script>
