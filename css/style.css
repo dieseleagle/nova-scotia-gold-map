@@ -193,6 +193,10 @@ header h1 {
     background-color: rgba(139, 69, 19, 0.8); /* Brown for historical sites */
 }
 
+.gold-marker-icon.panning {
+    background-color: rgba(65, 105, 225, 0.8); /* Royal blue for panning locations */
+}
+
 /* Legend icons */
 .legend-icon {
     display: inline-block;
@@ -214,6 +218,10 @@ header h1 {
 
 .legend-icon.historical {
     background-color: rgba(139, 69, 19, 0.8);
+}
+
+.legend-icon.panning {
+    background-color: rgba(65, 105, 225, 0.8);
 }
 
 /* Offline status indicator */

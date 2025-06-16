@@ -44,6 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
             className: 'gold-marker-icon historical',
             iconSize: [30, 30],
             html: '<span style="line-height: 30px;">Au</span>'
+        }),
+        'panning': L.divIcon({
+            className: 'gold-marker-icon panning',
+            iconSize: [30, 30],
+            html: '<span style="line-height: 30px;">Pa</span>'
         })
     };
     
@@ -426,6 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div><span class="legend-icon abandoned"></span> Abandoned Mine</div>
                     <div><span class="legend-icon active"></span> Active Exploration</div>
                     <div><span class="legend-icon historical"></span> Historical Site</div>
+                    <div><span class="legend-icon panning"></span> Panning Location</div>
                     <div style="margin-top: 5px;"><span style="display: inline-block; width: 20px; height: 20px; background-color: blue; border-radius: 50%; margin-right: 5px;"></span> Your Location</div>
                     <div style="margin-top: 10px; font-size: 0.9em;">Data Source: Nova Scotia Mineral Occurrence Database</div>
                 </div>
