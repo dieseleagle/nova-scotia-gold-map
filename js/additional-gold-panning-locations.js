@@ -1649,8 +1649,8 @@ const additionalGoldPanningLocations = [
     {
         id: "panning-96",
         name: "New Ross Gold-Quartz District",
-        lat: 44.7333,
-        lng: -64.4667,
+        lat: -64.4667,
+        lng: 44.7333,
         type: "recreational",
         status: "quartz-rich",
         size: "medium",
