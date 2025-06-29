@@ -21,30 +21,71 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to validate and fix coordinates
     function validateCoordinates(locations) {
+        // Define the correct bounds for Nova Scotia
+        const NS_LAT_MIN = 43.0;
+        const NS_LAT_MAX = 47.0;
+        const NS_LNG_MIN = -67.0;
+        const NS_LNG_MAX = -59.0;
+        
+        // Define reference points for major Nova Scotia locations
+        const referencePoints = {
+            'Halifax': { lat: 44.6488, lng: -63.5752 },
+            'Sydney': { lat: 46.1367, lng: -60.1944 },
+            'Yarmouth': { lat: 43.8374, lng: -66.1174 },
+            'Lunenburg': { lat: 44.3770, lng: -64.3089 },
+            'Truro': { lat: 45.3653, lng: -63.2809 }
+        };
+        
         return locations.map(location => {
             // Create a copy of the location to avoid modifying the original
             const validatedLocation = {...location};
             
             // Check if coordinates are within Nova Scotia bounds
-            // Nova Scotia is roughly between 43°N to 47°N latitude and 59°W to 67°W longitude
-            const isLatInRange = validatedLocation.lat >= 43 && validatedLocation.lat <= 47;
-            const isLngInRange = validatedLocation.lng >= -67 && validatedLocation.lng <= -59;
+            let isLatInRange = validatedLocation.lat >= NS_LAT_MIN && validatedLocation.lat <= NS_LAT_MAX;
+            let isLngInRange = validatedLocation.lng >= NS_LNG_MIN && validatedLocation.lng <= NS_LNG_MAX;
             
-            // If coordinates are not in Nova Scotia range, they might be swapped
+            // If coordinates are not in Nova Scotia range, try to fix them
             if (!isLatInRange || !isLngInRange) {
-                // Check if swapping would put them in range
+                // First try: Check if swapping would put them in range
                 const swappedLat = validatedLocation.lng;
                 const swappedLng = validatedLocation.lat;
                 
-                const isSwappedLatInRange = swappedLat >= 43 && swappedLat <= 47;
-                const isSwappedLngInRange = swappedLng >= -67 && swappedLng <= -59;
+                const isSwappedLatInRange = swappedLat >= NS_LAT_MIN && swappedLat <= NS_LAT_MAX;
+                const isSwappedLngInRange = swappedLng >= NS_LNG_MIN && swappedLng <= NS_LNG_MAX;
                 
-                // If swapping would put them in range, swap them
                 if (isSwappedLatInRange && isSwappedLngInRange) {
-                    console.log(`Fixed coordinates for ${validatedLocation.name}: [${validatedLocation.lat}, ${validatedLocation.lng}] -> [${swappedLat}, ${swappedLng}]`);
+                    console.log(`Fixed coordinates for ${validatedLocation.name} by swapping: [${validatedLocation.lat}, ${validatedLocation.lng}] -> [${swappedLat}, ${swappedLng}]`);
                     validatedLocation.lat = swappedLat;
                     validatedLocation.lng = swappedLng;
+                    isLatInRange = true;
+                    isLngInRange = true;
                 }
+                // Second try: If still out of range, check if the sign is wrong
+                else {
+                    if (!isLatInRange) {
+                        if (Math.abs(validatedLocation.lat) >= NS_LAT_MIN && Math.abs(validatedLocation.lat) <= NS_LAT_MAX) {
+                            validatedLocation.lat = Math.abs(validatedLocation.lat);
+                            console.log(`Fixed latitude for ${validatedLocation.name} by making it positive: ${validatedLocation.lat}`);
+                            isLatInRange = true;
+                        }
+                    }
+                    
+                    if (!isLngInRange) {
+                        if (Math.abs(validatedLocation.lng) >= Math.abs(NS_LNG_MIN) && Math.abs(validatedLocation.lng) <= Math.abs(NS_LNG_MAX)) {
+                            validatedLocation.lng = -Math.abs(validatedLocation.lng);
+                            console.log(`Fixed longitude for ${validatedLocation.name} by making it negative: ${validatedLocation.lng}`);
+                            isLngInRange = true;
+                        }
+                    }
+                }
+            }
+            
+            // If still out of range, use a fallback location in Nova Scotia
+            if (!isLatInRange || !isLngInRange) {
+                // Use Lunenburg as a fallback for locations that can't be fixed
+                console.log(`Could not fix coordinates for ${validatedLocation.name}: [${validatedLocation.lat}, ${validatedLocation.lng}]. Using Lunenburg as fallback.`);
+                validatedLocation.lat = referencePoints.Lunenburg.lat;
+                validatedLocation.lng = referencePoints.Lunenburg.lng;
             }
             
             return validatedLocation;
@@ -212,13 +253,29 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error toggling favorite:', e);
         }
     }
+    
+    // Function to create icon based on status
+    function createIcon(status) {
+        return goldIcons[status] || defaultGoldIcon;
+    }
 
     // Add markers for each gold location
     goldLocations.forEach(location => {
-        // Choose the appropriate icon based on status
-        const icon = goldIcons[location.status] || defaultGoldIcon;
+        // Create custom icon based on status
+        const icon = createIcon(location.status);
         
-        const marker = L.marker([location.lat, location.lng], { icon: icon })
+        // Ensure coordinates are valid numbers
+        const lat = parseFloat(location.lat);
+        const lng = parseFloat(location.lng);
+        
+        // Skip invalid coordinates
+        if (isNaN(lat) || isNaN(lng)) {
+            console.error(`Invalid coordinates for ${location.name}: [${location.lat}, ${location.lng}]`);
+            return;
+        }
+        
+        // Create marker with popup
+        const marker = L.marker([lat, lng], { icon: icon })
             .bindPopup(createPopupContent(location));
         
         // Add click event to update info panel
