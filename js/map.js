@@ -16,6 +16,41 @@ document.addEventListener('DOMContentLoaded', function() {
         goldLocations = allGoldLocations || [];
     }
     
+    // Validate and fix coordinates for all locations
+    goldLocations = validateCoordinates(goldLocations);
+    
+    // Function to validate and fix coordinates
+    function validateCoordinates(locations) {
+        return locations.map(location => {
+            // Create a copy of the location to avoid modifying the original
+            const validatedLocation = {...location};
+            
+            // Check if coordinates are within Nova Scotia bounds
+            // Nova Scotia is roughly between 43°N to 47°N latitude and 59°W to 67°W longitude
+            const isLatInRange = validatedLocation.lat >= 43 && validatedLocation.lat <= 47;
+            const isLngInRange = validatedLocation.lng >= -67 && validatedLocation.lng <= -59;
+            
+            // If coordinates are not in Nova Scotia range, they might be swapped
+            if (!isLatInRange || !isLngInRange) {
+                // Check if swapping would put them in range
+                const swappedLat = validatedLocation.lng;
+                const swappedLng = validatedLocation.lat;
+                
+                const isSwappedLatInRange = swappedLat >= 43 && swappedLat <= 47;
+                const isSwappedLngInRange = swappedLng >= -67 && swappedLng <= -59;
+                
+                // If swapping would put them in range, swap them
+                if (isSwappedLatInRange && isSwappedLngInRange) {
+                    console.log(`Fixed coordinates for ${validatedLocation.name}: [${validatedLocation.lat}, ${validatedLocation.lng}] -> [${swappedLat}, ${swappedLng}]`);
+                    validatedLocation.lat = swappedLat;
+                    validatedLocation.lng = swappedLng;
+                }
+            }
+            
+            return validatedLocation;
+        });
+    }
+    
     // Initialize the map centered on Nova Scotia
     const map = L.map('map').setView([45.0, -62.5], 8);
 
