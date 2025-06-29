@@ -1627,5 +1627,41 @@ const additionalGoldPanningLocations = [
         accessNotes: "Located east of Barss Corner in northern Lunenburg County. Some areas may be on private property.",
         productionYears: "Exploration in the late 1980s and early 1990s",
         totalProduction: "Exploration only, no commercial production"
+    },
+    {
+        id: "panning-95",
+        name: "Lacey Gold Mine",
+        lat: 44.4500,
+        lng: -64.5400,
+        type: "recreational",
+        status: "quartz-rich",
+        size: "medium",
+        discoveryYear: 1861,
+        discoverer: "Historical",
+        description: "A significant historical mine in the Gold River gold district. The Lacey Gold Mine was one of the more developed operations in the area with documented underground workings including a 200-foot level.",
+        geology: "Gold-bearing quartz veins in Meguma Group metasediments. The quartz veins outcrop within and adjacent to the Gold River, with the mine exploiting the deeper extensions of these veins.",
+        hazards: "Abandoned mine workings including shafts and tunnels. Stay on marked paths and avoid entering old workings.",
+        panningPotential: "Moderate to High",
+        accessNotes: "Located in the Gold River district. Some areas may be on private property or protected as historical sites.",
+        productionYears: "1860s-early 1900s",
+        totalProduction: "Part of the Gold River district's total production of 7,610 ounces"
+    },
+    {
+        id: "panning-96",
+        name: "New Ross Gold-Quartz District",
+        lat: 44.7333,
+        lng: -64.4667,
+        type: "recreational",
+        status: "quartz-rich",
+        size: "medium",
+        discoveryYear: 1870,
+        discoverer: "Historical",
+        description: "Historical gold mining area in northern Lunenburg County. Gold mining became a significant industry in the New Ross area in the late 19th century, with several small operations working gold-bearing quartz veins.",
+        geology: "Gold-bearing quartz veins in Meguma Group metasediments. The area is also known for other mineral occurrences including manganese, which was also mined historically.",
+        hazards: "Abandoned mine workings may be present. The area has a history of various mining activities including gold and manganese.",
+        panningPotential: "Low to Moderate",
+        accessNotes: "Located in the New Ross area of northern Lunenburg County. Some areas may be on private property.",
+        productionYears: "Late 1800s to early 1900s",
+        totalProduction: "Limited historical records, but several small operations were active"
     }
 ];
