@@ -197,6 +197,13 @@ header h1 {
     background-color: rgba(65, 105, 225, 0.8); /* Royal blue for panning locations */
 }
 
+.gold-marker-icon.quartz-rich {
+    background-color: #FFFFFF;
+    border: 2px solid #8A2BE2;
+    color: #8A2BE2;
+    font-weight: bold;
+}
+
 /* Legend icons */
 .legend-icon {
     display: inline-block;
@@ -222,6 +229,11 @@ header h1 {
 
 .legend-icon.panning {
     background-color: rgba(65, 105, 225, 0.8);
+}
+
+.legend-icon.quartz-rich {
+    background-color: #FFFFFF;
+    border: 2px solid #8A2BE2;
 }
 
 /* Offline status indicator */

@@ -33,22 +33,32 @@ document.addEventListener('DOMContentLoaded', function() {
         'abandoned': L.divIcon({
             className: 'gold-marker-icon abandoned',
             iconSize: [30, 30],
-            html: '<span style="line-height: 30px;">Au</span>'
+            iconAnchor: [15, 15],
+            html: '<div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Au</div>'
         }),
         'active-exploration': L.divIcon({
             className: 'gold-marker-icon active',
             iconSize: [30, 30],
-            html: '<span style="line-height: 30px;">Au</span>'
+            iconAnchor: [15, 15],
+            html: '<div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Au</div>'
         }),
         'historical': L.divIcon({
             className: 'gold-marker-icon historical',
             iconSize: [30, 30],
-            html: '<span style="line-height: 30px;">Au</span>'
+            iconAnchor: [15, 15],
+            html: '<div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Au</div>'
         }),
         'panning': L.divIcon({
             className: 'gold-marker-icon panning',
             iconSize: [30, 30],
-            html: '<span style="line-height: 30px;">Pa</span>'
+            iconAnchor: [15, 15],
+            html: '<div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Pa</div>'
+        }),
+        'quartz-rich': L.divIcon({
+            className: '',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            html: '<div style="width: 30px; height: 30px; background-color: white; border: 2px solid #8A2BE2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #8A2BE2;">Qz</div>'
         })
     };
     
@@ -432,6 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div><span class="legend-icon active"></span> Active Exploration</div>
                     <div><span class="legend-icon historical"></span> Historical Site</div>
                     <div><span class="legend-icon panning"></span> Panning Location</div>
+                    <div><span class="legend-icon quartz-rich"></span> Quartz-Rich Location</div>
                     <div style="margin-top: 5px;"><span style="display: inline-block; width: 20px; height: 20px; background-color: blue; border-radius: 50%; margin-right: 5px;"></span> Your Location</div>
                     <div style="margin-top: 10px; font-size: 0.9em;">Data Source: Nova Scotia Mineral Occurrence Database</div>
                 </div>

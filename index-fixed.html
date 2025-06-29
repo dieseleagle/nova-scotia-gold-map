@@ -14,6 +14,66 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Marker Icon Styles -->
+    <style>
+        .gold-marker-icon {
+            background-color: #FFD700;
+            border: 2px solid #333;
+            border-radius: 50%;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+        .gold-marker-icon.abandoned {
+            background-color: #A9A9A9;
+        }
+        .gold-marker-icon.active {
+            background-color: #32CD32;
+        }
+        .gold-marker-icon.historical {
+            background-color: #B8860B;
+        }
+        .gold-marker-icon.panning {
+            background-color: #1E90FF;
+        }
+        .gold-marker-icon.quartz-rich {
+            background-color: #FFFFFF;
+            border: 2px solid #8A2BE2;
+            color: #8A2BE2;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Legend icon styles */
+        .legend-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 5px;
+            border: 1px solid #333;
+        }
+        .legend-icon.abandoned {
+            background-color: #A9A9A9;
+        }
+        .legend-icon.active {
+            background-color: #32CD32;
+        }
+        .legend-icon.historical {
+            background-color: #B8860B;
+        }
+        .legend-icon.panning {
+            background-color: #1E90FF;
+        }
+        .legend-icon.quartz-rich {
+            background-color: #FFFFFF;
+            border: 1px solid #8A2BE2;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -33,6 +93,7 @@
                         <option value="active-exploration">Active Exploration</option>
                         <option value="historical">Historical</option>
                         <option value="panning">Panning</option>
+                        <option value="quartz-rich">Quartz-Rich</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -138,6 +199,7 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     
     <!-- Application Data -->
+    <script src="js/cache-buster.js"></script>
     <script src="js/gold-mining-data-part1.js"></script>
     <script src="js/gold-mining-data-part2.js"></script>
     <script src="js/gold-mining-data-part3.js"></script>
