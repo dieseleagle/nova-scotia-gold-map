@@ -16,30 +16,89 @@ document.addEventListener('DOMContentLoaded', function() {
         goldLocations = allGoldLocations || [];
     }
     
-    console.log('Total locations before filtering:', goldLocations.length);
+    console.log('Total locations before processing:', goldLocations.length);
     
-    // Filter out locations with obviously wrong coordinates
-    goldLocations = goldLocations.filter(location => {
-        // Check if coordinates exist
-        if (location.lat === undefined || location.lng === undefined) {
-            console.log(`Skipping location with missing coordinates: ${location.name}`);
-            return false;
+    // Function to fix coordinates that might be swapped or have wrong signs
+    function fixCoordinates(lat, lng, name) {
+        // Define the correct bounds for Nova Scotia
+        const NS_LAT_MIN = 43.0;
+        const NS_LAT_MAX = 47.0;
+        const NS_LNG_MIN = -67.0;
+        const NS_LNG_MAX = -59.0;
+        
+        // Check if coordinates are within Nova Scotia bounds
+        let isLatInRange = lat >= NS_LAT_MIN && lat <= NS_LAT_MAX;
+        let isLngInRange = lng >= NS_LNG_MIN && lng <= NS_LNG_MAX;
+        
+        // If coordinates are already in range, return them as is
+        if (isLatInRange && isLngInRange) {
+            return { lat, lng };
         }
         
-        // Convert to numbers if they're strings
-        location.lat = parseFloat(location.lat);
-        location.lng = parseFloat(location.lng);
-        
-        // Check for NaN
-        if (isNaN(location.lat) || isNaN(location.lng)) {
-            console.log(`Skipping location with invalid coordinates: ${location.name}`);
-            return false;
+        // Try fix 1: Check if coordinates are swapped
+        if ((lng >= NS_LAT_MIN && lng <= NS_LAT_MAX) && 
+            (lat >= NS_LNG_MIN && lat <= NS_LNG_MAX)) {
+            console.log(`Fixed swapped coordinates for ${name}: [${lat}, ${lng}] -> [${lng}, ${lat}]`);
+            return { lat: lng, lng: lat };
         }
         
-        return true;
+        // Try fix 2: Check if longitude has wrong sign (should be negative in North America)
+        if (isLatInRange && lng > 0) {
+            const correctedLng = -lng;
+            if (correctedLng >= NS_LNG_MIN && correctedLng <= NS_LNG_MAX) {
+                console.log(`Fixed longitude sign for ${name}: ${lng} -> ${correctedLng}`);
+                return { lat, lng: correctedLng };
+            }
+        }
+        
+        // Try fix 3: Check if both are swapped AND longitude has wrong sign
+        if ((lat >= NS_LAT_MIN && lat <= NS_LAT_MAX) && lng < 0) {
+            const correctedLng = -Math.abs(lat);
+            const correctedLat = Math.abs(lng);
+            if ((correctedLat >= NS_LAT_MIN && correctedLat <= NS_LAT_MAX) && 
+                (correctedLng >= NS_LNG_MIN && correctedLng <= NS_LNG_MAX)) {
+                console.log(`Fixed swapped coordinates and signs for ${name}: [${lat}, ${lng}] -> [${correctedLat}, ${correctedLng}]`);
+                return { lat: correctedLat, lng: correctedLng };
+            }
+        }
+        
+        // If all fixes fail, use Halifax as default
+        console.log(`Could not fix coordinates for ${name}: [${lat}, ${lng}]. Using Halifax as default.`);
+        return { lat: 44.6488, lng: -63.5752 };
+    }
+    
+    // Process all locations to ensure coordinates are correct
+    goldLocations = goldLocations.map(location => {
+        // Create a copy to avoid modifying the original
+        const processedLocation = {...location};
+        
+        // Convert coordinates to numbers if they're strings
+        let lat = typeof processedLocation.lat === 'string' ? 
+            parseFloat(processedLocation.lat) : processedLocation.lat;
+        let lng = typeof processedLocation.lng === 'string' ? 
+            parseFloat(processedLocation.lng) : processedLocation.lng;
+        
+        // Check for valid numbers
+        if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
+            console.log(`Invalid coordinates for ${processedLocation.name}: [${lat}, ${lng}]`);
+            // Use Halifax as default
+            lat = 44.6488;
+            lng = -63.5752;
+        } else {
+            // Try to fix coordinates if they're not in Nova Scotia range
+            const fixedCoords = fixCoordinates(lat, lng, processedLocation.name);
+            lat = fixedCoords.lat;
+            lng = fixedCoords.lng;
+        }
+        
+        // Update the location with fixed coordinates
+        processedLocation.lat = lat;
+        processedLocation.lng = lng;
+        
+        return processedLocation;
     });
     
-    console.log('Total locations after filtering:', goldLocations.length);
+    console.log('Total locations after processing:', goldLocations.length);
     
     // Initialize the map centered on Nova Scotia
     const map = L.map('map').setView([45.0, -62.5], 8);
@@ -398,18 +457,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to get directions to a location
     function getDirections(lat, lng, name) {
+        // Ensure coordinates are valid numbers
+        const validLat = parseFloat(lat);
+        const validLng = parseFloat(lng);
+        
+        if (isNaN(validLat) || isNaN(validLng)) {
+            console.error('Invalid coordinates for directions:', lat, lng);
+            alert('Sorry, coordinates for this location are invalid. Cannot open directions.');
+            return;
+        }
+        
         // Check if we can use the device's native maps app
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
-        if (isMobile) {
-            // For mobile devices, open in native maps app
-            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${encodeURIComponent(name)}`;
-            window.open(url, '_blank');
-        } else {
-            // For desktop, open Google Maps in a new tab
-            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${encodeURIComponent(name)}`;
-            window.open(url, '_blank');
-        }
+        // For both mobile and desktop, open Google Maps in a new tab
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${validLat},${validLng}`;
+        window.open(url, '_blank');
     }
     
     // Add user's current location functionality
